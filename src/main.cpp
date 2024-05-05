@@ -18,10 +18,8 @@ int main() {
   SDL_SetWindowTitle(window, "Goo Me");
 
 
-  Frame f = Frame("This my frame bitch");
+  Frame box = Frame("Box", 50, 50, 100, 100);
 
-  // std::cout << f.name << std::endl;
-  
 
   // Loop variables
   bool quit = false;
@@ -49,6 +47,15 @@ int main() {
     SDL_Rect bg = {0, 0, (int) window_width, (int) window_height};
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, &bg);
+
+    // Draw box
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &box.body);
+
+    // Draw one no seriously..
+    SDL_Rect b = {0, 0, 100, 100};
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    SDL_RenderFillRect(renderer, &b);
 
 
     // Update the window
