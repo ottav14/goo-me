@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <string>
+#include <vector>
 #include "../include/Frame.h"
 
 int main() {
@@ -18,9 +19,13 @@ int main() {
   SDL_SetWindowTitle(window, "Goo Me");
 
 
+
+  // Initialize Goo Me
+  std::vector<Frame> frames;
+
   // Initialize test box
   Frame box = Frame("Box", 50, 50, 100, 100);
-
+  frames.push_back(box);
 
   // Loop variables
   bool quit = false;
@@ -49,11 +54,15 @@ int main() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderFillRect(renderer, &bg);
 
-    // Draw box
-    SDL_Rect boxBody = box.getBody();
-    std::vector<int> color = box.getColor();
-    SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
-    SDL_RenderFillRect(renderer, &boxBody);
+
+    for(Frame frame : frames) {
+      
+      SDL_Rect body = frame.getBody();
+      std::vector<int> color = frame.getColor();
+      SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
+      SDL_RenderFillRect(renderer, &body);
+
+    }
 
 
     // Update the window
