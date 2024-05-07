@@ -3,79 +3,94 @@
 #include <string>
 #include <vector>
 #include "../include/Frame.h"
+#include "../include/Button.h"
 
 int main() {
 
-  double window_width = 1920;
-  double window_height = 1080;
+	double window_width = 1920;
+	double window_height = 1080;
 
-  // Initialize SDL
-  SDL_Window* window = nullptr;
-  SDL_Renderer* renderer = nullptr;
-  SDL_Init(SDL_INIT_EVERYTHING);
-  SDL_CreateWindowAndRenderer(window_width, window_height, 0, &window, &renderer);
+	// Initialize SDL
+	SDL_Window* window = nullptr;
+	SDL_Renderer* renderer = nullptr;
+	SDL_Init(SDL_INIT_EVERYTHING);
+	SDL_CreateWindowAndRenderer(window_width, window_height, 0, &window, &renderer);
 
-  // Set Window title
-  SDL_SetWindowTitle(window, "Goo Me");
-
-
-
-  // Initialize Goo Me
-  std::vector<Frame> frames;
-
-  // Initialize test box
-  Frame box = Frame("Box", 50, 50, 100, 100);
-  frames.push_back(box);
-
-  // Loop variables
-  bool quit = false;
-  SDL_Event event;
-
-  // Main loop
-  while(!quit) {
+	// Set Window title
+	SDL_SetWindowTitle(window, "Goo Me");
 
 
-    // Event loop
-    while(SDL_PollEvent(&event)) {
-      switch(event.type) {
-      case SDL_QUIT:
-	quit = true;
-	break;
 
-      case SDL_KEYDOWN:
-	break;
+	// Initialize Goo Me
+	std::vector<Frame> frames;
 
+	// Constants
+	const int padding = 50;
+	const int inner_padding = padding / 2;
 
-      }
-    }
+	// Root
+	Frame root = Frame("root", padding, padding, window_width/2 - padding, window_height - 2*padding);
+	frames.push_back(root);
 
-    // Draw background
-    SDL_Rect bg = {0, 0, (int) window_width, (int) window_height};
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderFillRect(renderer, &bg);
+	// Inner
+	Frame inner = Frame("inner",
+			padding + inner_padding, padding + inner_padding,
+			window_width/2 - padding - 2*inner_padding, window_height - 2*padding - 2*inner_padding);
 
+	inner.setColor(120, 120, 120, 255);
+	frames.push_back(inner);
 
-    for(Frame frame : frames) {
-      
-      SDL_Rect body = frame.getBody();
-      std::vector<int> color = frame.getColor();
-      SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
-      SDL_RenderFillRect(renderer, &body);
-
-    }
+	// Button
+	Button button = Button("words.");
+	frames.push_back(button);
 
 
-    // Update the window
-    SDL_RenderPresent(renderer);
 
 
-  }
 
-  // Clean up SDL 
-  SDL_DestroyRenderer(renderer);
-  SDL_DestroyWindow(window);
-  SDL_Quit();
 
-  return 0;
+
+	// Loop variables
+	bool quit = false;
+	SDL_Event event;
+
+	// Main loop
+	while(!quit) {
+
+
+		// Event loop
+		while(SDL_PollEvent(&event)) {
+			switch(event.type) {
+				case SDL_QUIT:
+					quit = true;
+					break;
+
+				case SDL_KEYDOWN:
+					break;
+
+
+			}
+		}
+
+
+
+		// Display frames
+		for(Frame frame : frames) {
+			frame.display(renderer);
+		}
+
+
+		// Update the window
+		SDL_RenderPresent(renderer);
+
+
+	}
+
+	// Clean up SDL 
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	SDL_Quit();
+
+	return 0;
 
 }

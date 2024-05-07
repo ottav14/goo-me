@@ -8,11 +8,11 @@ INCDIR = include
 BINDIR = bin
 
 # Source files
-SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/Frame.cpp
+SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/Frame.cpp $(SRCDIR)/Button.cpp
 # Object files
 OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 # Header files
-HEADERS = $(INCDIR)/Frame.h
+HEADERS = $(INCDIR)/Frame.h $(INCDIR)/Button.h
 
 # Executable
 EXECUTABLE = out
