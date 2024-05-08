@@ -11,6 +11,7 @@ class Button : public Frame {
 
 	public:	
 		Button(const std::string& n); 
+		void display(SDL_Renderer *renderer) override; 
 };
 
 #endif // BUTTON_H

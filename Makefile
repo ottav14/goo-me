@@ -1,6 +1,6 @@
 # Compiler
 CC = g++
-LIBS = -lSDL2 -lm
+LIBS = -lm -lSDL2 -lSDL2_ttf 
 
 # Directories
 SRCDIR = src

@@ -14,11 +14,18 @@ class Frame {
 	public:
 		Frame(const std::string& n);
 		Frame(const std::string& n, const int x, const int y, const int w, const int h); 
-		std::vector<int> getColor();
-		void display(SDL_Renderer *renderer);
-		SDL_Rect getBody();
-		void setColor(const int r, const int g, const int b, const int a);
+		virtual void display(SDL_Renderer *renderer);
 
+		// Getters
+		std::string getName();
+		std::vector<int> getColor();
+		SDL_Rect getBody();
+
+		// Setters
+		void setName(std::string n);
+		void setColor(const int r, const int g, const int b, const int a);
+		void setPosition(int x, int y);
+		void setSize(int w, int h);
 
 };
 

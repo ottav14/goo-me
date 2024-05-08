@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 #include <vector>
 #include "../include/Frame.h"
@@ -15,7 +16,9 @@ int main() {
 	SDL_Renderer* renderer = nullptr;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_CreateWindowAndRenderer(window_width, window_height, 0, &window, &renderer);
+	TTF_Init();
 
+	
 	// Set Window title
 	SDL_SetWindowTitle(window, "Goo Me");
 
@@ -24,12 +27,17 @@ int main() {
 	// Initialize Goo Me
 	std::vector<Frame> frames;
 
+
+
+	// GUI	
+
 	// Constants
 	const int padding = 50;
 	const int inner_padding = padding / 2;
 
 	// Root
 	Frame root = Frame("root", padding, padding, window_width/2 - padding, window_height - 2*padding);
+	root.setColor(255, 0, 0, 255);
 	frames.push_back(root);
 
 	// Inner
@@ -42,7 +50,12 @@ int main() {
 
 	// Button
 	Button button = Button("words.");
+	button.setColor(255, 255, 255, 255);
+	button.setPosition(100, 100);
+	button.setSize(500, 200);
 	frames.push_back(button);
+
+
 
 
 
