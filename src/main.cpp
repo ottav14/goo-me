@@ -7,8 +7,8 @@
 #include "../include/Button.h"
 #include "../include/TextRenderer.h"
 
-const int window_width = 1280;
-const int window_height = 720;
+const int window_width = 400;
+const int window_height = 800;
 
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -75,31 +75,21 @@ int main() {
 	// GUI	
 
 	// Constants
-	const int padding = 50;
-	const int inner_padding = padding / 2;
-
-
+	const int padding = 30;
+	const int innerPadding = padding / 2;
 	
 	
 
 	// Root
-	Frame root = Frame("root", padding, padding, window_width/2 - padding, window_height - 2*padding);
-	root.setColor(255, 0, 0, 255);
+	Frame root = Frame("root", padding, padding, window_width - 2*padding, window_height - 2*padding);
+	root.setColor(255, 255, 255, 255);
 	frames.push_back(&root);
-
-	// Inner
-	Frame inner = Frame("inner",
-			padding + inner_padding, padding + inner_padding,
-			window_width/2 - padding - 2*inner_padding, window_height - 2*padding - 2*inner_padding);
-
-	inner.setColor(120, 120, 120, 255);
-	frames.push_back(&inner);
 
 	// Button
 	Button button = Button("words.", textRenderer);
-	button.setColor(255, 0, 0, 255);
-	button.setPosition(100, 100);
-	button.setSize(500, 200);
+	button.setColor(0, 150, 230, 255);
+	button.setPosition(padding + innerPadding, padding + innerPadding);
+	button.setSize(window_width - 2*(padding+innerPadding), 30);
 	frames.push_back(&button);
 
 

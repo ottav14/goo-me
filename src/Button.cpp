@@ -21,9 +21,12 @@ void Button::display(SDL_Renderer *renderer) const {
 	SDL_RenderFillRect(renderer, &body); 	
 
 	// Draw text
+	std::string text = "Poopy fart";
 	SDL_Color textColor = {255, 255, 255, 255};
+	const int textX = body.x + body.w / 2 - 8*text.size();
+	const int textY = body.y + body.h / 2 - 12;
 
-	renderText(textRenderer, "Fart", 5, 5, textColor);
+	renderText(textRenderer, text, textX, textY, textColor);
 	
 
 }
