@@ -14,12 +14,12 @@ class Frame {
 	public:
 		Frame(const std::string& n);
 		Frame(const std::string& n, const int x, const int y, const int w, const int h); 
-		virtual void display(SDL_Renderer *renderer);
+		virtual void display(SDL_Renderer *renderer) const;
 
 		// Getters
-		std::string getName();
-		std::vector<int> getColor();
-		SDL_Rect getBody();
+		std::string getName() const;
+		std::vector<int> getColor() const;
+		SDL_Rect getBody() const;
 
 		// Setters
 		void setName(std::string n);

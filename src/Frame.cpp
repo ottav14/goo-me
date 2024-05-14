@@ -15,7 +15,7 @@ Frame::Frame(const std::string& n, const int x, const int y, const int w, const 
 	body = {x, y, w, h};
 }
 
-void Frame::display(SDL_Renderer *renderer) {
+void Frame::display(SDL_Renderer *renderer) const {
 	SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
 	SDL_RenderFillRect(renderer, &body); 	
 }
@@ -26,15 +26,15 @@ void Frame::display(SDL_Renderer *renderer) {
 
 
 // Getters
-std::string Frame::getName() {
+std::string Frame::getName() const {
 	return name;
 }
 
-std::vector<int> Frame::getColor() {
+std::vector<int> Frame::getColor() const {
 	return color;
 }
 
-SDL_Rect Frame::getBody() {
+SDL_Rect Frame::getBody() const {
 	return body;
 }
 
