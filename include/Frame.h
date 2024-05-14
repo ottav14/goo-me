@@ -8,24 +8,29 @@
 class Frame {
 	private:
 		std::string name;
-		std::vector<int> color;
+		SDL_Color color;
 		SDL_Rect body;
+		bool clicked;
 
 	public:
 		Frame(const std::string& n);
 		Frame(const std::string& n, const int x, const int y, const int w, const int h); 
 		virtual void display(SDL_Renderer *renderer) const;
+		virtual bool isColliding(const int x, const int y) const;
+		virtual void onClicked();
 
 		// Getters
 		std::string getName() const;
-		std::vector<int> getColor() const;
+		SDL_Color getColor() const;
 		SDL_Rect getBody() const;
+		bool isClicked() const;
 
 		// Setters
 		void setName(std::string n);
-		void setColor(const int r, const int g, const int b, const int a);
-		void setPosition(int x, int y);
+		void setColor(const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a);
+		void setPosition(const int x, const int y);
 		void setSize(int w, int h);
+		void setClicked(const bool val);
 
 };
 

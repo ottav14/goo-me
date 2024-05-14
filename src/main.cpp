@@ -16,6 +16,28 @@ TextRenderer *textRenderer;
 TTF_Font *font;
 std::vector<Frame*> frames;
 
+void onMouseClick(const int mouseX, const int mouseY) {
+
+	for(Frame *frame : frames) {
+
+		if(frame->isColliding(mouseX, mouseY)) {
+			frame->setClicked(true);
+		}
+
+	}
+
+}
+
+void onMouseUp(const int mouseX, const int mouseY) {
+
+	for(Frame *frame : frames) {
+
+		frame->setClicked(false);
+
+	}
+
+}
+
 bool init() {
 
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -86,8 +108,9 @@ int main() {
 	frames.push_back(&root);
 
 	// Button
-	Button button = Button("words.", textRenderer);
+	Button button = Button("button", textRenderer);
 	button.setColor(0, 150, 230, 255);
+	button.setClickedColor(255, 0, 230, 255);
 	button.setPosition(padding + innerPadding, padding + innerPadding);
 	button.setSize(window_width - 2*(padding+innerPadding), 30);
 	frames.push_back(&button);
@@ -105,10 +128,12 @@ int main() {
 	// Loop variables
 	bool quit = false;
 	SDL_Event event;
+	int mouseX, mouseY;
 
 	// Main loop
 	while(!quit) {
 
+		SDL_GetMouseState(&mouseX, &mouseY);
 
 		// Event loop
 		while(SDL_PollEvent(&event)) {
@@ -120,14 +145,27 @@ int main() {
 				case SDL_KEYDOWN:
 					break;
 
+				case SDL_MOUSEBUTTONDOWN:
+					if(event.button.button == SDL_BUTTON_LEFT) {
+						onMouseClick(mouseX, mouseY);
+					}
+					break;
+
+				case SDL_MOUSEBUTTONUP:
+					if(event.button.button == SDL_BUTTON_LEFT) {
+						onMouseUp(mouseX, mouseY);
+					}
+					break;
 
 			}
 		}
 
 
-		// Display frames
+		// Handle frames
 		for(Frame *frame : frames) {
+			// Display frames
 			frame->display(renderer);
+
 		}
 		
 

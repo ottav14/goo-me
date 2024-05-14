@@ -12,12 +12,21 @@ Button::Button(const std::string& n, TextRenderer *tr) : Frame(n), textRenderer(
 void Button::display(SDL_Renderer *renderer) const {
 
 	// Get values
-	std::vector<int> color = getColor();
+	SDL_Color color;
+	
+	if(isClicked()) {
+		color = getClickedColor();
+	}
+	else {
+		color = getColor();
+	}
+	
+
 	SDL_Rect body = getBody();
 	TextRenderer *textRenderer = getTextRenderer();
 
 	// Draw box
-	SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, &body); 	
 
 	// Draw text
@@ -33,4 +42,18 @@ void Button::display(SDL_Renderer *renderer) const {
 
 TextRenderer* Button::getTextRenderer() const {
 	return textRenderer;
+}
+
+void Button::onClicked() {
+
+	setColor(255, 0, 0, 255);
+
+}
+
+void Button::setClickedColor(const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a) {
+	clickedColor = {r, g, b, a};
+}
+
+SDL_Color Button::getClickedColor() const {
+	return clickedColor;
 }

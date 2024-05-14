@@ -7,18 +7,29 @@ Frame::Frame(const std::string& n) {
 	name = n;
 	color = {255, 255, 255, 255};
 	body = {0, 0, 100, 100};
+	clicked = false;
 }
 
 Frame::Frame(const std::string& n, const int x, const int y, const int w, const int h) {
 	name = n;
 	color = {255, 255, 255, 255};
 	body = {x, y, w, h};
+	clicked = false;
 }
 
 void Frame::display(SDL_Renderer *renderer) const {
-	SDL_SetRenderDrawColor(renderer, color[0], color[1], color[2], color[3]);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 	SDL_RenderFillRect(renderer, &body); 	
 }
+
+bool Frame::isColliding(const int x, const int y) const {
+
+	SDL_Rect body = getBody();
+	return x > body.x && x < body.x + body.w &&
+		   y > body.y && y < body.y + body.h;	
+}
+
+void Frame::onClicked() {}
 
 
 
@@ -30,12 +41,16 @@ std::string Frame::getName() const {
 	return name;
 }
 
-std::vector<int> Frame::getColor() const {
+SDL_Color Frame::getColor() const {
 	return color;
 }
 
 SDL_Rect Frame::getBody() const {
 	return body;
+}
+
+bool Frame::isClicked() const {
+	return clicked;
 }
 
 
@@ -49,8 +64,8 @@ void Frame::setName(const std::string n) {
 	name = n;
 }
 
-void Frame::setColor(const int r, const int g, const int b, const int a) {
-	color = (std::vector<int>) {r, g, b, a};
+void Frame::setColor(const unsigned char r, const unsigned char g, const unsigned char b, const unsigned char a) {
+	color = {r, g, b, a};
 }
 
 void Frame::setPosition(const int x, const int y) {
@@ -58,9 +73,13 @@ void Frame::setPosition(const int x, const int y) {
 	body.y = y;
 }
 	
-void Frame::setSize(int w, int h) {
+void Frame::setSize(const int w, const int h) {
 	body.w = w;
 	body.h = h;
+}
+
+void Frame::setClicked(const bool val) {
+	clicked = val;
 }
 
 
