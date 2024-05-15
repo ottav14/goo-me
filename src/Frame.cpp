@@ -10,11 +10,22 @@ Frame::Frame(const std::string& n) {
 	clicked = false;
 }
 
+Frame::Frame(const std::string& n, SDL_Rect b, SDL_Color c) {
+	name = n;
+	color = c;
+	body = b;
+	clicked = false;
+}
+
 Frame::Frame(const std::string& n, const int x, const int y, const int w, const int h) {
 	name = n;
 	color = {255, 255, 255, 255};
 	body = {x, y, w, h};
 	clicked = false;
+}
+
+void Frame::handle(SDL_Renderer *renderer) {
+	display(renderer);
 }
 
 void Frame::display(SDL_Renderer *renderer) const {
@@ -30,6 +41,7 @@ bool Frame::isColliding(const int x, const int y) const {
 }
 
 void Frame::onClicked() {}
+void Frame::onUnclicked() {}
 
 
 

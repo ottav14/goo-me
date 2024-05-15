@@ -5,6 +5,7 @@
 #include <vector>
 #include "../include/Frame.h"
 #include "../include/Button.h"
+#include "../include/Textbox.h"
 #include "../include/TextRenderer.h"
 
 const int window_width = 400;
@@ -16,12 +17,15 @@ TextRenderer *textRenderer;
 TTF_Font *font;
 std::vector<Frame*> frames;
 
-void onMouseClick(const int mouseX, const int mouseY) {
+void onMouseDown(const int mouseX, const int mouseY) {
 
 	for(Frame *frame : frames) {
 
 		if(frame->isColliding(mouseX, mouseY)) {
-			frame->setClicked(true);
+			frame->onClicked();
+		}
+		else {
+			frame->onUnclicked();
 		}
 
 	}
@@ -33,7 +37,6 @@ void onMouseUp(const int mouseX, const int mouseY) {
 	for(Frame *frame : frames) {
 
 		frame->setClicked(false);
-
 	}
 
 }
@@ -67,11 +70,14 @@ bool init() {
         SDL_Log("Failed to load font: %s", TTF_GetError());
         return false;
     }
-    return true;
 
 	// Set Window title
 	SDL_SetWindowTitle(window, "Goo Me");
 
+	// Initialize text renderer
+	textRenderer = createTextRenderer(renderer, font);
+
+    return true;
 
 }
 
@@ -91,8 +97,6 @@ int main() {
 		std::cout << "Error: Could not properly initialize program." << std::endl;
 	}	
 
-	// Initialize text renderer
-	textRenderer = createTextRenderer(renderer, font);
 	
 	// GUI	
 
@@ -103,18 +107,39 @@ int main() {
 	
 
 	// Root
-	Frame root = Frame("root", padding, padding, window_width - 2*padding, window_height - 2*padding);
-	root.setColor(255, 255, 255, 255);
+	SDL_Color rootColor = {255, 255, 255, 255};
+	SDL_Rect rootBody;
+	rootBody.x = padding;
+	rootBody.y = padding;
+	rootBody.w = window_width - 2*padding; 
+	rootBody.h = window_height - 2*padding; 
+
+	Frame root = Frame("root", rootBody, rootColor);
 	frames.push_back(&root);
 
+
 	// Button
-	Button button = Button("button", textRenderer);
-	button.setColor(0, 150, 230, 255);
-	button.setClickedColor(255, 0, 230, 255);
-	button.setPosition(padding + innerPadding, padding + innerPadding);
-	button.setSize(window_width - 2*(padding+innerPadding), 30);
+	SDL_Color buttonColor = {0, 0, 255, 255};
+	SDL_Rect buttonBody;
+	buttonBody.x = rootBody.x + innerPadding;
+	buttonBody.y = rootBody.y + innerPadding;
+	buttonBody.w = rootBody.w - 2*innerPadding;
+	buttonBody.h = 40;
+
+	Button button = Button("button", "Click me", textRenderer, buttonBody, buttonColor);
 	frames.push_back(&button);
 
+	// Textbox
+	SDL_Color textboxColor = {200, 200, 200, 255};
+	SDL_Rect textboxBody;
+	textboxBody.x = rootBody.x + innerPadding;
+	textboxBody.y = buttonBody.y + buttonBody.h + innerPadding;
+	textboxBody.w = rootBody.w - 2*innerPadding;
+	textboxBody.h = 40;
+
+	Textbox textbox = Textbox("textbox", "Enter text", textRenderer, textboxBody, textboxColor);
+	frames.push_back(&textbox);
+	
 
 	// Clear screen
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -133,6 +158,7 @@ int main() {
 	// Main loop
 	while(!quit) {
 
+		// Get mouse input
 		SDL_GetMouseState(&mouseX, &mouseY);
 
 		// Event loop
@@ -142,12 +168,13 @@ int main() {
 					quit = true;
 					break;
 
+				// Input logic
 				case SDL_KEYDOWN:
 					break;
 
 				case SDL_MOUSEBUTTONDOWN:
 					if(event.button.button == SDL_BUTTON_LEFT) {
-						onMouseClick(mouseX, mouseY);
+						onMouseDown(mouseX, mouseY);
 					}
 					break;
 
@@ -163,9 +190,7 @@ int main() {
 
 		// Handle frames
 		for(Frame *frame : frames) {
-			// Display frames
-			frame->display(renderer);
-
+			frame->handle(renderer);
 		}
 		
 
@@ -175,7 +200,7 @@ int main() {
 
 	}
 
-	// Clean up SDL 
+	// Clean up 
 	quit_program();
 
 	return 0;

@@ -8,11 +8,11 @@ INCDIR = include
 BINDIR = bin
 
 # Source files
-SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/Frame.cpp $(SRCDIR)/Button.cpp $(SRCDIR)/TextRenderer.cpp
+SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/Frame.cpp $(SRCDIR)/Button.cpp $(SRCDIR)/TextRenderer.cpp $(SRCDIR)/Textbox.cpp
 # Object files
 OBJECTS = $(SOURCES:$(SRCDIR)/%.cpp=$(BINDIR)/%.o)
 # Header files
-HEADERS = $(INCDIR)/Frame.h $(INCDIR)/Button.h $(INCDIR)/TextRenderer.h
+HEADERS = $(INCDIR)/Frame.h $(INCDIR)/Button.h $(INCDIR)/TextRenderer.h $(INCDIR)/Textbox.h
 
 # Executable
 EXECUTABLE = out

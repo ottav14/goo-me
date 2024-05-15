@@ -14,10 +14,13 @@ class Frame {
 
 	public:
 		Frame(const std::string& n);
+		Frame(const std::string& n, SDL_Rect b, SDL_Color c);
 		Frame(const std::string& n, const int x, const int y, const int w, const int h); 
+		virtual void handle(SDL_Renderer *renderer);
 		virtual void display(SDL_Renderer *renderer) const;
 		virtual bool isColliding(const int x, const int y) const;
 		virtual void onClicked();
+		virtual void onUnclicked();
 
 		// Getters
 		std::string getName() const;
